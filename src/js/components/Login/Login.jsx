@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   LinkWrapper,
@@ -11,10 +11,10 @@ import {
 import { LoginWrapper } from './Login.styles';
 import { Button, Input } from '../../atoms';
 
-const Login = ({ onFormSubmit }) => {
+const Login = ({ onFormSubmit, error }) => {
   const [user, setUser] = useState({ username: '', password: '' });
 
-  const [error, setError] = useState(false);
+  const [hasError, setError] = useState(false);
 
   const { username, password } = user;
 
@@ -23,6 +23,10 @@ const Login = ({ onFormSubmit }) => {
     e.preventDefault();
     onFormSubmit(user);
   };
+
+  useEffect(() => {
+    if (error.isError) setError(true);
+  }, [error]);
 
   return (
     <LoginWrapper dir="column">
@@ -41,10 +45,14 @@ const Login = ({ onFormSubmit }) => {
             </FormInfoText>
           </FormItemWrapper>
 
-          {error
+          {hasError
             && (
               <ErrorWrapper>
-                <div> Please enter username and password </div>
+                <div>
+                  {' '}
+                  { error.message || 'Please enter username and password' }
+                  {' '}
+                </div>
                 <div />
               </ErrorWrapper>
             )}
@@ -86,10 +94,12 @@ const Login = ({ onFormSubmit }) => {
 
 Login.propTypes = {
   onFormSubmit: PropTypes.func,
+  error: PropTypes.objectOf(),
 };
 
 Login.defaultProps = {
   onFormSubmit: () => { },
+  error: { isError: false, message: '' },
 };
 
 export default Login;

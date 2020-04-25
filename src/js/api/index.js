@@ -14,7 +14,20 @@ const api = {
     const apiUrl = `${host}/${url}`;
     const headers = this.getHeaders();
     const apiOptions = { ...options, headers };
-    return fetch(apiUrl, apiOptions).then((res) => res.json());
+
+    return new Promise((resolve, reject) => fetch(apiUrl, apiOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        const { error, message, statusCode } = data;
+        if (error) {
+          console.log('Response : ', data);
+          const errorMessage = Array.isArray(message) ? message.join('\n') : message;
+          const errorDate = { message: errorMessage, statusCode };
+          reject(errorDate);
+        } else {
+          resolve(data);
+        }
+      }).catch((err) => reject(err)));
   },
   get(url) {
     const options = {

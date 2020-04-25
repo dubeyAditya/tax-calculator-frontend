@@ -6,7 +6,7 @@ const authservice = {
     return `${this.controller}/${action}`;
   },
   authenticate(user) {
-    const url = this.buildUrl('signUp');
+    const url = this.buildUrl('signIn');
     const payload = { userName: user.username, password: user.password };
     return new Promise((resolve, reject) => api.post(url, payload).then((data) => {
       api.setToken(data.accessToken);
