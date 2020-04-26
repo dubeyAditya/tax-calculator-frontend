@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Input from '../Input';
 
 
-const CurrencyInput = ({ onChange }) => {
+const CurrencyInput = (props) => {
   const localStringToNumber = (s) => Number(String(s).replace(/[^0-9.-]+/g, ''));
 
   const onFocus = (e) => {
@@ -29,7 +29,7 @@ const CurrencyInput = ({ onChange }) => {
   return (
     <div className="CurrencyInputWrapper">
       <Input
-        onChange={onChange}
+        {...props}
         onFocus={onFocus}
         onBlur={onBlur}
         placeholder={formatTocurrency(0)}
