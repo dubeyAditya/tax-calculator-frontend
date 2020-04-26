@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Input } from '../../atoms';
 import { SignupWrapper } from './Signup.styles';
@@ -9,21 +9,32 @@ import {
   FormItemWrapper,
   ErrorWrapper,
 } from '../../styles';
+import AppContext from '../../context/app.context';
 
 const Signup = (props) => {
-  const { onSubmit } = props;
+  const { onSubmit, error } = props;
 
-  const [error, setError] = useState(false);
+  const [hasError, setError] = useState(false);
 
   const [user, setUser] = useState({ username: '', password: '', retype: '' });
 
   const { username, password, retype } = user;
 
+  const { setLogin } = useContext(AppContext);
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log(user);
-    onSubmit(user);
+    if (password === retype) {
+      setError(false);
+      onSubmit(user);
+    } else {
+      setError(true);
+    }
   };
+
+  useEffect(() => {
+    if (error.isError) setError(true);
+  }, [error]);
 
   return (
     <SignupWrapper dir="column">
@@ -36,14 +47,18 @@ const Signup = (props) => {
             </FormTitle>
             <FormInfoText>
               You can access the income tax calculator, Once Registered. Have an account?,
-              <LinkWrapper> Login </LinkWrapper>
+              <LinkWrapper onClick={() => setLogin(true)}> Login </LinkWrapper>
             </FormInfoText>
           </FormItemWrapper>
 
-          {error
+          {hasError
             && (
               <ErrorWrapper>
-                <div> Please enter username and password </div>
+                <div>
+                  {' '}
+                  { error.message || 'Missing Input or Password Mismatch' }
+                  {' '}
+                </div>
                 <div />
               </ErrorWrapper>
             )}
@@ -99,10 +114,12 @@ const Signup = (props) => {
 
 Signup.propTypes = {
   onSubmit: PropTypes.func,
+  error: PropTypes.objectOf(),
 };
 
 Signup.defaultProps = {
   onSubmit: () => { },
+  error: { isError: false, message: '' },
 };
 
 export default Signup;

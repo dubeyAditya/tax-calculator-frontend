@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   LinkWrapper,
@@ -10,6 +10,7 @@ import {
 } from '../../styles';
 import { LoginWrapper } from './Login.styles';
 import { Button, Input } from '../../atoms';
+import AppContext from '../../context/app.context';
 
 const Login = ({ onFormSubmit, error }) => {
   const [user, setUser] = useState({ username: '', password: '' });
@@ -18,9 +19,11 @@ const Login = ({ onFormSubmit, error }) => {
 
   const { username, password } = user;
 
+  const { setLogin } = useContext(AppContext);
+
   const handleFormSubmit = (e) => {
-    setError(false);
     e.preventDefault();
+    setError(false);
     onFormSubmit(user);
   };
 
@@ -31,7 +34,6 @@ const Login = ({ onFormSubmit, error }) => {
   return (
     <LoginWrapper dir="column">
       <form onSubmit={handleFormSubmit}>
-
         <FormWrapper dir="column">
           <FormItemWrapper dir="column">
             <FormTitle>
@@ -39,18 +41,17 @@ const Login = ({ onFormSubmit, error }) => {
             </FormTitle>
             <FormInfoText>
               To access the income tax calculator, you need to login. Don’t have an account yet,
-              <LinkWrapper>
+              <LinkWrapper onClick={() => setLogin(false)}>
                 Create Account
               </LinkWrapper>
             </FormInfoText>
           </FormItemWrapper>
-
           {hasError
             && (
               <ErrorWrapper>
                 <div>
                   {' '}
-                  { error.message || 'Please enter username and password' }
+                  {error.message || 'Please enter username and password'}
                   {' '}
                 </div>
                 <div />
@@ -69,7 +70,6 @@ const Login = ({ onFormSubmit, error }) => {
               onInvalid={() => setError(true)}
             />
           </FormItemWrapper>
-
           <FormItemWrapper>
             <FormLabel>
               Password
