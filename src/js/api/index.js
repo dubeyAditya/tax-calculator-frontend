@@ -17,14 +17,17 @@ const api = {
 
     return new Promise((resolve, reject) => fetch(apiUrl, apiOptions)
       .then((res) => res.json())
-      .then((data) => {
-        const { error, message, statusCode } = data;
+      .then((response) => {
+        const {
+          error, message, statusCode, data,
+        } = response;
         if (error || statusCode !== 200) {
-          console.log('Response : ', data);
+          console.log('Response on Error: ', response);
           const errorMessage = Array.isArray(message) ? message.join('\n') : message;
           const errorDate = { message: errorMessage, statusCode };
           reject(errorDate);
         } else {
+          console.log('Response on Success: ', response);
           resolve(data);
         }
       }).catch((err) => reject(err)));
@@ -45,7 +48,7 @@ const api = {
   getHeaders() {
     const headers = {
       'Content-Type': 'application/json',
-      Authorizarion: `Bearer ${this.getToken()}`,
+      Authorization: `Bearer ${this.getToken()}`,
     };
     return headers;
   },

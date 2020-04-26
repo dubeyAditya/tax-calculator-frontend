@@ -5,12 +5,17 @@ export default {
   buildUrl(action) {
     return `${this.controller}/${action}`;
   },
-  calculateTax(paylod) {
+  calculateTax(userDetails) {
     const url = this.buildUrl('calculateTax');
-    return api.post(url, paylod);
+    const payload = {
+      year: userDetails.year,
+      yearlySalary: userDetails.income,
+      taxFreeInvestment: userDetails.taxFreeInvestment,
+      age: userDetails.age,
+    };
+    return api.post(url, payload);
   },
-  getTaxRule(year) {
-    const url = this.buildUrl(`getTaxRule/:${year}`);
-    return api.get(url);
+  getTaxRecords() {
+    return api.get('getTaxHistory');
   },
 };

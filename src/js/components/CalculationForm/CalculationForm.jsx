@@ -6,9 +6,8 @@ import {
 } from '../../styles';
 import { CurrencyInput, Input, Button } from '../../atoms';
 import { Tax, TaxWrapper } from './CalculationForm.styles';
-import taxCalculatorService from '../../services/tax-calculator.service';
 
-const CalculationForm = ({ userId }) => {
+const CalculationForm = ({ onSubmit, error, taxAmount }) => {
   const [userDetails, setUserDetails] = useState({
     year: 2018,
     age: 20,
@@ -16,47 +15,52 @@ const CalculationForm = ({ userId }) => {
     income: 0,
   });
 
-  const [error, setError] = useState({ message: '', hasError: false });
+  const [validationError, setError] = useState({ message: '', hasError: false });
 
-  const [taxAmount, setTaxAmount] = useState(null);
 
   const {
     year, age, income, taxFreeInvestment,
   } = userDetails;
 
+  useEffect(() => {
+    if (error.isError) setError({ hasError: error.isError, message: error.message });
+  }, [error]);
+
+  const validate = () => {
+    let isValid = true;
+    // eslint-disable-next-line no-restricted-globals
+    const hasNonNumber = [year, age, income, taxFreeInvestment].map(Number).some(isNaN);
+    if (hasNonNumber) {
+      setError({ hasError: true, message: 'Plese enter Numeric Values between [0-9]' });
+      isValid = false;
+    }
+    if (!year || !age || !income || !taxFreeInvestment) {
+      setError({ hasError: true, message: 'Plese fill all the details' });
+      isValid = false;
+    }
+    return isValid;
+  };
+
   const calculateTax = (e) => {
     e.preventDefault();
-    if (year && age && income && taxFreeInvestment) {
-      console.log(userDetails);
-
-      taxCalculatorService.calculateTax(userDetails)
-        .then((amount) => setTaxAmount(amount),
-          (err) => setError({ hasError: true, message: err.message }));
-
-      //
-    } else {
-      setError({ hasError: true, message: 'Plese fill all the details' });
+    if (validate()) {
+      onSubmit(userDetails);
     }
   };
 
-  useEffect(() => {
-    console.log(userDetails);
-  });
-
-
   return (
     <form onSubmit={calculateTax}>
-      {error.hasError && (
-        <ErrorWrapper>
-          <div>
-            {' '}
-            { error.message }
-            {' '}
-          </div>
-          <div />
-        </ErrorWrapper>
-      )}
       <FormWrapper dir="column">
+        {validationError.hasError && (
+          <ErrorWrapper>
+            <div>
+              {' '}
+              { validationError.message}
+              {' '}
+            </div>
+            <div />
+          </ErrorWrapper>
+        )}
         <FormItemWrapper>
           <FormLabel>
             Age
@@ -64,7 +68,7 @@ const CalculationForm = ({ userId }) => {
           <Input
             value={age}
             onChange={({ target }) => setUserDetails({
-              year, income, taxFreeInvestment, age: target.value,
+              ...userDetails, age: Number(target.value),
             })}
             type="number"
             min="20"
@@ -79,7 +83,7 @@ const CalculationForm = ({ userId }) => {
           <Input
             value={year}
             onChange={({ target }) => setUserDetails({
-              income, taxFreeInvestment, age, year: target.value,
+              ...userDetails, year: target.value,
             })}
             type="number"
             min="2018"
@@ -95,7 +99,7 @@ const CalculationForm = ({ userId }) => {
           <CurrencyInput
             value={income}
             onChange={({ target }) => setUserDetails({
-              year, taxFreeInvestment, age, income: target.value,
+              ...userDetails, income: Number(target.value),
             })}
           />
         </FormItemWrapper>
@@ -107,7 +111,7 @@ const CalculationForm = ({ userId }) => {
           <CurrencyInput
             value={taxFreeInvestment}
             onChange={({ target }) => setUserDetails({
-              year, taxFreeInvestment: target.value, age, income,
+              ...userDetails, taxFreeInvestment: Number(target.value),
             })}
           />
         </FormItemWrapper>
@@ -116,16 +120,16 @@ const CalculationForm = ({ userId }) => {
       <Button type="submit" size="large" color="success">
         Calculate
       </Button>
-      {taxAmount && (
+      {(taxAmount >= 0) && (
         <TaxWrapper dir="column">
           <div> You will have to pay annual income tax of </div>
-          <FlexWrapper justify="space-between">
+          <FlexWrapper justify="flex-start">
             <Tax>
               {' '}
               {taxAmount}
               {' '}
             </Tax>
-            <Button size="normal" color="success"> Save </Button>
+            {/* <Button size="normal" color="success"> Save </Button> */}
           </FlexWrapper>
         </TaxWrapper>
       )}
@@ -134,11 +138,16 @@ const CalculationForm = ({ userId }) => {
 };
 
 CalculationForm.propTypes = {
-  userId: PropTypes.string,
+  onSubmit: PropTypes.func,
+  // eslint-disable-next-line react/forbid-prop-types
+  error: PropTypes.object,
+  taxAmount: PropTypes.number,
 };
 
 CalculationForm.defaultProps = {
-  userId: '',
+  onSubmit: () => {},
+  error: { message: '', isError: false },
+  taxAmount: -1,
 };
 
 export default CalculationForm;
