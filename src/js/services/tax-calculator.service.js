@@ -9,4 +9,8 @@ export default {
     const url = this.buildUrl('calculateTax');
     return api.post(url, paylod);
   },
+  getTaxRule(year) {
+    const url = this.buildUrl(`getTaxRule/:${year}`);
+    return api.get(url);
+  },
 };
