@@ -19,7 +19,7 @@ const api = {
       .then((res) => res.json())
       .then((data) => {
         const { error, message, statusCode } = data;
-        if (error) {
+        if (error || statusCode !== 200) {
           console.log('Response : ', data);
           const errorMessage = Array.isArray(message) ? message.join('\n') : message;
           const errorDate = { message: errorMessage, statusCode };
