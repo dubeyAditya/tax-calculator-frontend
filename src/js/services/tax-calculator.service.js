@@ -2,8 +2,9 @@ import api from '../api';
 
 export default {
   controller: 'taxCalculator',
-  buildUrl(action) {
-    return `${this.controller}/${action}`;
+  buildUrl(action, param) {
+    const parameters = param || '';
+    return `${this.controller}/${action}/${parameters}`;
   },
   calculateTax(userDetails) {
     const url = this.buildUrl('calculateTax');
@@ -15,7 +16,11 @@ export default {
     };
     return api.post(url, payload);
   },
-  getTaxRecords() {
+  getTaxRule(year) {
+    const url = this.buildUrl('getTaxRule', year);
+    return api.get(url);
+  },
+  getTaxHistory() {
     return api.get('getTaxHistory');
   },
 };

@@ -3,19 +3,19 @@ import PropTypes from 'prop-types';
 import { TaxDetailsWrapper } from './TaxDetails.styles';
 import { Empty } from '../../atoms';
 
-const TaxDetails = ({ records }) => (
+const TaxDetails = ({ history }) => (
   <TaxDetailsWrapper dir="column">
-    { records.length ? '' : <Empty />}
+    { history.length ? '' : <Empty />}
   </TaxDetailsWrapper>
 );
 
 TaxDetails.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
-  records: PropTypes.array,
+  history: PropTypes.array,
 };
 
 TaxDetails.defaultProps = {
-  records: [],
+  history: [],
 };
 
 export default TaxDetails;

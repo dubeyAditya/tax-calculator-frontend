@@ -10,7 +10,7 @@ const TaxCaclulator = () => {
 
   const [taxAmount, setTaxAmount] = useState(-1);
 
-  const [records, setSavedRecords] = useState([]);
+  const [taxHistory, settaxHistory] = useState([]);
 
   const [error, setError] = useState({ hasError: true, message: '' });
 
@@ -20,20 +20,20 @@ const TaxCaclulator = () => {
         (err) => setError({ hasError: true, message: err.message }));
   };
 
-  const fetchSavedRecords = () => {
-    taxCalculatorService.getTaxRecords().then((list) => setSavedRecords(list),
+  const fetchTaxHistory = () => {
+    taxCalculatorService.getTaxHistory().then((list) => settaxHistory(list),
       (err) => setError({ hasError: true, message: err.message }));
   };
 
   const handleTabChange = (tab) => {
     // eslint-disable-next-line no-unused-expressions
-    (tab === 2) ? fetchSavedRecords() : '';
+    (tab === 2) ? fetchTaxHistory() : '';
     setSelected(tab);
   };
 
   const renderTab = () => (selected === 1
     ? <CalculationForm taxAmount={taxAmount} onSubmit={calculate} error={error} />
-    : <TaxDetails records={records} />);
+    : <TaxDetails history={taxHistory} />);
 
   return (
     <TaxCaclulatorWrapper dir="column">
