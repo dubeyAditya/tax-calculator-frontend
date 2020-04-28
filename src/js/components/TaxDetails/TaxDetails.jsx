@@ -44,7 +44,7 @@ const TaxDetails = ({ history }) => {
             {' '}
             {formatToCurrency(item.result)}
           </SavedTaxAmount>
-          <SavedTaxDate>{new Date(item.dateCreated).toDateString()}</SavedTaxDate>
+          <SavedTaxDate>{new Date(item.dateCreated).toLocaleString('en-IN')}</SavedTaxDate>
         </FlexWrapper>
       </CaclculatedTax>
     </TaxHistoryItem>

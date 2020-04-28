@@ -108,7 +108,7 @@ const CalculationForm = ({
             Annual Income
           </FormLabel>
           <CurrencyInput
-            value={income}
+            // value={income}
             onChange={({ target }) => setUserDetails({
               ...userDetails, income: Number(target.value),
             })}
@@ -120,7 +120,7 @@ const CalculationForm = ({
             Tax Free Investment
           </FormLabel>
           <CurrencyInput
-            value={taxFreeInvestment}
+            // value={taxFreeInvestment}
             onChange={({ target }) => setUserDetails({
               ...userDetails, taxFreeInvestment: Number(target.value),
             })}

@@ -12,7 +12,7 @@ const TaxCaclulator = () => {
 
   const [taxHistory, settaxHistory] = useState([]);
 
-  const [error, setError] = useState({ hasError: true, message: '' });
+  const [error, setError] = useState({ hasError: false, message: '' });
 
   const calculate = (userDetails) => {
     taxCalculatorService.calculateTax(userDetails)
