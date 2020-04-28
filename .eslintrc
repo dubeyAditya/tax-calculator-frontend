@@ -19,6 +19,7 @@
     "shallow": true
   },
   "rules": {
+    "no-console": "off",
     "react/jsx-props-no-spreading": [
       0,
       {
