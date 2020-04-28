@@ -4,5 +4,5 @@ import { FlexWrapper, card } from '../../styles';
 export const TaxCaclulatorWrapper = styled(FlexWrapper)`
    ${card};
    padding-top: 0;
-   min-height: 35rem;
+   min-height: 30rem;
 `;

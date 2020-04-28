@@ -15,12 +15,14 @@ Button.propTypes = {
   size: PropTypes.string,
   color: PropTypes.string,
   children: PropTypes.elementType,
+  border: PropTypes.bool,
 };
 
 Button.defaultProps = {
   size: 'normal',
   color: 'primary',
   children: null,
+  border: false,
 };
 
 export default Button;

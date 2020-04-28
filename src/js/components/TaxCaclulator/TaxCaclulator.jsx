@@ -32,7 +32,14 @@ const TaxCaclulator = () => {
   };
 
   const renderTab = () => (selected === 1
-    ? <CalculationForm taxAmount={taxAmount} onSubmit={calculate} error={error} />
+    ? (
+      <CalculationForm
+        taxAmount={taxAmount}
+        onReset={setTaxAmount}
+        onSubmit={calculate}
+        error={error}
+      />
+    )
     : <TaxDetails history={taxHistory} />);
 
   return (

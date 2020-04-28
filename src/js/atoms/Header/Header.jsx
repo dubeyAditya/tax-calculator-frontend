@@ -13,7 +13,7 @@ const Header = (props) => {
 };
 
 Header.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.instanceOf(Object),
 };
 
 Header.defaultProps = {

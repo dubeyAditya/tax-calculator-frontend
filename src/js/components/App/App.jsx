@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AppWrapper } from './App.styles';
+import { AppWrapper, LogoutBtn } from './App.styles';
 import Signup from '../Signup';
 import Login from '../Login';
 import TaxCaclulator from '../TaxCaclulator';
@@ -9,7 +9,7 @@ import api from '../../api';
 import AppContext from '../../context/app.context';
 
 export const App = () => {
-  const [isAuthenticated, enableAuth] = useState(true);
+  const [isAuthenticated, enableAuth] = useState(false);
 
   const [error, setError] = useState({ isError: false, message: '' });
 
@@ -37,10 +37,16 @@ export const App = () => {
       .catch(({ message }) => setError({ isError: true, message }));
   };
 
+  const logOut = () => {
+    enableAuth(false);
+    api.setToken('');
+  };
+
   return (
     <AppWrapper dir="column">
       <Header>
         <div> Income Tax Calculator </div>
+        { isAuthenticated && <LogoutBtn onClick={logOut}>Logout</LogoutBtn>}
       </Header>
       <AppContext.Provider value={{
         isLogin,

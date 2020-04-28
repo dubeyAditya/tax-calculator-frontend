@@ -8,15 +8,4 @@ export const HeaderWrapper = styled.header`
     justify-content: space-between;
     align-items:center;
     font-size:1.5rem;
-
-    @media (min-width: 600px) { 
-       
-        & {
-            justify-content: start;
-        }
-
-        & :nth-child(2){
-            margin-left:1rem;
-        }
-}
 `;

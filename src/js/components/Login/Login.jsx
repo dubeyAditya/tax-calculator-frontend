@@ -40,7 +40,7 @@ const Login = ({ onFormSubmit, error }) => {
               Login
             </FormTitle>
             <FormInfoText>
-              To access the income tax calculator, you need to login. Don’t have an account yet,
+              {'To access the income tax calculator, you need to login. Don’t have an account yet, '}
               <LinkWrapper onClick={() => setLogin(false)}>
                 Create Account
               </LinkWrapper>
@@ -84,7 +84,7 @@ const Login = ({ onFormSubmit, error }) => {
             />
           </FormItemWrapper>
         </FormWrapper>
-        <Button type="submit" size="large" color="success">
+        <Button border type="submit" size="large" color="success">
           Login
         </Button>
       </form>
@@ -94,7 +94,7 @@ const Login = ({ onFormSubmit, error }) => {
 
 Login.propTypes = {
   onFormSubmit: PropTypes.func,
-  error: PropTypes.objectOf(),
+  error: PropTypes.instanceOf(Object),
 };
 
 Login.defaultProps = {

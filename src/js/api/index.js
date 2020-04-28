@@ -2,19 +2,20 @@
 const host = 'http://localhost:3000';
 
 const api = {
-  token: '',
+  token: sessionStorage.getItem('jwt'),
   setToken(token) {
-    this.token = token;
+    sessionStorage.setItem('jwt', token);
     console.log('Token', token);
   },
   getToken() {
-    return this.token;
+    const token = sessionStorage.getItem('jwt') || '';
+    return token;
   },
   request(url, options) {
     const apiUrl = `${host}/${url}`;
     const headers = this.getHeaders();
     const apiOptions = { ...options, headers };
-
+    console.log(apiOptions);
     return new Promise((resolve, reject) => fetch(apiUrl, apiOptions)
       .then((res) => res.json())
       .then((response) => {

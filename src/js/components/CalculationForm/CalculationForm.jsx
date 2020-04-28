@@ -5,15 +5,20 @@ import {
   ErrorWrapper,
 } from '../../styles';
 import { CurrencyInput, Input, Button } from '../../atoms';
-import { Tax, TaxWrapper } from './CalculationForm.styles';
+import { Tax, TaxWrapper, ResetBtn } from './CalculationForm.styles';
+import { formatToCurrency } from '../../utility';
 
-const CalculationForm = ({ onSubmit, error, taxAmount }) => {
-  const [userDetails, setUserDetails] = useState({
+const CalculationForm = ({
+  onSubmit, error, onReset, taxAmount,
+}) => {
+  const initialState = {
     year: 2018,
     age: 20,
     taxFreeInvestment: 0,
     income: 0,
-  });
+  };
+
+  const [userDetails, setUserDetails] = useState(initialState);
 
   const [validationError, setError] = useState({ message: '', hasError: false });
 
@@ -46,6 +51,12 @@ const CalculationForm = ({ onSubmit, error, taxAmount }) => {
     if (validate()) {
       onSubmit(userDetails);
     }
+  };
+
+  const reset = () => {
+    setUserDetails(initialState);
+    setError({ message: '', hasError: false });
+    onReset(-1);
   };
 
   return (
@@ -83,7 +94,7 @@ const CalculationForm = ({ onSubmit, error, taxAmount }) => {
           <Input
             value={year}
             onChange={({ target }) => setUserDetails({
-              ...userDetails, year: target.value,
+              ...userDetails, year: Number(target.value),
             })}
             type="number"
             min="2018"
@@ -117,19 +128,21 @@ const CalculationForm = ({ onSubmit, error, taxAmount }) => {
         </FormItemWrapper>
 
       </FormWrapper>
-      <Button type="submit" size="large" color="success">
+      <Button border={taxAmount < 0} type="submit" size="large" color="success">
         Calculate
       </Button>
       {(taxAmount >= 0) && (
         <TaxWrapper dir="column">
           <div> You will have to pay annual income tax of </div>
-          <FlexWrapper justify="flex-start">
+          <FlexWrapper align="center" justify="space-between">
             <Tax>
               {' '}
-              {taxAmount}
+              {formatToCurrency(taxAmount)}
               {' '}
             </Tax>
-            {/* <Button size="normal" color="success"> Save </Button> */}
+            <ResetBtn onClick={reset}>
+              New Calculation
+            </ResetBtn>
           </FlexWrapper>
         </TaxWrapper>
       )}
@@ -140,14 +153,16 @@ const CalculationForm = ({ onSubmit, error, taxAmount }) => {
 CalculationForm.propTypes = {
   onSubmit: PropTypes.func,
   // eslint-disable-next-line react/forbid-prop-types
-  error: PropTypes.object,
+  error: PropTypes.instanceOf(Object),
   taxAmount: PropTypes.number,
+  onReset: PropTypes.func,
 };
 
 CalculationForm.defaultProps = {
   onSubmit: () => {},
   error: { message: '', isError: false },
   taxAmount: -1,
+  onReset: () => {},
 };
 
 export default CalculationForm;

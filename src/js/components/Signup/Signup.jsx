@@ -104,7 +104,7 @@ const Signup = (props) => {
             />
           </FormItemWrapper>
         </FormWrapper>
-        <Button type="submit" size="large" color="success">
+        <Button border type="submit" size="large" color="success">
           Sign Up
         </Button>
       </form>
