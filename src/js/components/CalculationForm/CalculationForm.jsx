@@ -28,7 +28,7 @@ const CalculationForm = ({
   } = userDetails;
 
   useEffect(() => {
-    if (error.isError) setError({ hasError: error.isError, message: error.message });
+    if (error.hasError) setError({ hasError: error.hasError, message: error.message });
   }, [error]);
 
   const validate = () => {
@@ -160,7 +160,7 @@ CalculationForm.propTypes = {
 
 CalculationForm.defaultProps = {
   onSubmit: () => {},
-  error: { message: '', isError: false },
+  error: { message: '', hasError: false },
   taxAmount: -1,
   onReset: () => {},
 };
