@@ -21,6 +21,11 @@ export default {
     return api.get(url);
   },
   getTaxHistory() {
-    return api.get('getTaxHistory');
+    return api.get('getTaxHistory').then((results) => {
+      const records = results
+        // eslint-disable-next-line max-len
+        .sort((result1, result2) => (new Date(result1.dateCreated).getTime() < new Date(result2.dateCreated).getTime() ? 1 : -1));
+      return records.slice(0, 4);
+    });
   },
 };
