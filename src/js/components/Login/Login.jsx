@@ -49,7 +49,7 @@ const Login = ({ onFormSubmit, error }) => {
           {hasError
             && (
               <ErrorWrapper>
-                <div>
+                <div data-testid="error">
                   {' '}
                   {error.message || 'Please enter username and password'}
                   {' '}
@@ -84,7 +84,7 @@ const Login = ({ onFormSubmit, error }) => {
             />
           </FormItemWrapper>
         </FormWrapper>
-        <Button border type="submit" size="large" color="success">
+        <Button data-testid="login" border type="submit" size="large" color="success">
           Login
         </Button>
       </form>
