@@ -35,7 +35,7 @@
     "import/no-extraneous-dependencies": [
       "warn",
       {
-        "devDependencies": ["./src/setupTests.js", "./src/**/*.test.js"]
+        "devDependencies": ["./src/setupTests.js", "./src/**/*.test.js", "./src/js/test-utils.js"]
       }
     ],
     "quotes": ["error", "single"],
