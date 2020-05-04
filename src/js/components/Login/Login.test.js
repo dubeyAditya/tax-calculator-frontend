@@ -21,7 +21,7 @@ describe('<Login />', () => {
     expect(getByTestId('error').textContent).toBe(' Error while testing ');
   });
 
-  it('should call on Submin when clicked submit is clicked', () => {
+  it('should call onSubmit when Login Button is clicked', () => {
     const { getByTestId } = render(<Login {...props} />);
     fireEvent.click(getByTestId('login'));
     expect(props.onFormSubmit).toHaveBeenCalled();
