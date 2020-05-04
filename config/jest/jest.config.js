@@ -1,7 +1,7 @@
 const { defaults } = require('jest-config');
 
 module.exports = {
-  collectCoverage: true,
+  collectCoverage: false,
   coverageThreshold: {
     global: {
       branches: 100,
@@ -26,7 +26,7 @@ module.exports = {
   ],
   roots: ['<rootDir>/src/'],
   rootDir: '../../',
-  setupFiles: ['<rootDir>/config/jest/setup.js'],
+  setupFiles: ['<rootDir>/config/jest/setup.js', '<rootDir>/config/jest/setupTests.js'],
   setupFilesAfterEnv: ['<rootDir>/config/jest/setupAfterEnv.js'],
   testEnvironment: 'jsdom',
   testMatch: ['**/*.(spec|test).(js|jsx)'],

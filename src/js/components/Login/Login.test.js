@@ -1,6 +1,6 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import Login from './Login';
+import { render } from '../test-utils';
 
 describe('<Login />', () => {
   it('should render successfully', () => {
