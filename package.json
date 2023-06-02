@@ -1,12 +1,9 @@
 {
-  "name": "uidev-project-template",
+  "name": "tax-calculator",
   "version": "1.0.0",
-  "description": "Project Template for UI developer coding exercise.",
-  "author": "Medly Pharmacy",
-  "keywords": [
-    "Medly",
-    "UI Challenge"
-  ],
+  "description": "",
+  "author": "dubeyAditya",
+  "keywords": [ ],
   "license": "ISC",
   "private": true,
   "scripts": {
